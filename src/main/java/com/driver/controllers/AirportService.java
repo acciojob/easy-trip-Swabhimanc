@@ -1,5 +1,6 @@
 package com.driver.controllers;
 
+import com.driver.model.Airport;
 import com.driver.model.City;
 import com.driver.model.Flight;
 import com.driver.model.Passenger;
@@ -13,6 +14,11 @@ public class AirportService {
 
     @Autowired
     AirportRepository airportRepository;
+
+    public String addAirport(Airport airport)
+    {
+        return airportRepository.addAirport(airport);
+    }
 
     public String getLargestAirportName()
     {

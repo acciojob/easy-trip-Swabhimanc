@@ -24,7 +24,7 @@ public class AirportRepository {
         }
     }
 
-    List<Airport> airportDB = new ArrayList<>();
+    HashMap<String,Airport> airportDB = new HashMap<>();
     HashMap<Integer,Flight> flightDB = new HashMap<>(); //flightID, Flight
 
 
@@ -38,11 +38,16 @@ public class AirportRepository {
 
 
 
+    public String addAirport(Airport airport)
+    {
+        airportDB.put(airport.getAirportName(),airport);
+        return "SUCCESS";
+    }
     public String getLargestAirportName()
     {
         int max = 0;
         String ans = "";
-        for(Airport x : airportDB)
+        for(Airport x : airportDB.values())
         {
             if(max<x.getNoOfTerminals())
             {
@@ -78,12 +83,15 @@ public class AirportRepository {
     public int getNumberOfPeople(Date date, String airportName)
     {
         City city = null;
-        for(Airport x : airportDB)
+        for(Airport x : airportDB.values())
         {
             if(x.getAirportName().equals(airportName))
             {
                 city=x.getCity();
             }
+        }
+        if (city == null) {
+            return 0;
         }
         int maxPassengers=0;
 
@@ -97,6 +105,7 @@ public class AirportRepository {
         }
         return maxPassengers;
     }
+
 
     public int flightFare(Integer flightId)
     {
@@ -170,7 +179,7 @@ public class AirportRepository {
         {
             String ans = "";
             City city = flightDB.get(flightId).getFromCity();
-            for(Airport x : airportDB)
+            for(Airport x : airportDB.values())
             {
                 if(x.getCity().equals(city))
                 {
