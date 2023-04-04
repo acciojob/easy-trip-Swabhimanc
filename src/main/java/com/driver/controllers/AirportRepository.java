@@ -119,11 +119,16 @@ public class AirportRepository {
                 return "FAILURE";
             }
         }
-        ticketDB.add(new Ticket(passengerId,flightId));
-        revenueDB.put(flightId,revenueDB.getOrDefault(flightId,0)+flightFilledDB.getOrDefault(flightId,0)*50+3000);
-        flightFilledDB.put(flightId,flightFilledDB.getOrDefault(flightId,0)+1);
-
-        return "SUCCESS";
+        try {
+            ticketDB.add(new Ticket(passengerId, flightId));
+            revenueDB.put(flightId, revenueDB.getOrDefault(flightId, 0) + flightFilledDB.getOrDefault(flightId, 0) * 50 + 3000);
+            flightFilledDB.put(flightId, flightFilledDB.getOrDefault(flightId, 0) + 1);
+            return "SUCCESS";
+        }
+        catch (Exception e)
+        {
+            return "FAILURE";
+        }
     }
 
     public String cancelTicket (Integer flightId,Integer passengerId)
@@ -161,15 +166,24 @@ public class AirportRepository {
 
     public String getStartingCityName(Integer flightId)
     {
-        City city = flightDB.get(flightId).getFromCity();
-        for(Airport x : airportDB)
+        try
         {
-            if(x.getCity().equals(city))
+            String ans = "";
+            City city = flightDB.get(flightId).getFromCity();
+            for(Airport x : airportDB)
             {
-                return x.getAirportName();
+                if(x.getCity().equals(city))
+                {
+                    ans = x.getAirportName();
+                    break;
+                }
             }
+            return ans;
         }
-        return null;
+        catch (Exception e)
+        {
+            return null;
+        }
     }
 
     public int calculateRevenueOfAFlight(Integer flightId)
