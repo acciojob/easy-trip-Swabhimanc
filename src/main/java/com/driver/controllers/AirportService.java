@@ -12,8 +12,7 @@ import java.util.Date;
 @Service
 public class AirportService {
 
-    @Autowired
-    AirportRepository airportRepository;
+    AirportRepository airportRepository = new AirportRepository();
 
     public String addAirport(Airport airport)
     {
