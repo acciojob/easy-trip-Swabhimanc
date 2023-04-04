@@ -15,8 +15,8 @@ import java.util.List;
 public class AirportRepository {
 
     class Ticket{
-        int passengerID;
-        int flightID;
+        Integer passengerID;
+        Integer flightID;
         Ticket(int passengerID, int flightID)
         {
             this.passengerID=passengerID;
@@ -63,15 +63,16 @@ public class AirportRepository {
 
     public double getShortestDurationOfPossibleBetweenTwoCities(City city1, City city2)
     {
+        double duration = Double.MAX_VALUE;
         for(Integer flightID : flightDB.keySet())
         {
             Flight x = flightDB.get(flightID);
             if(x.getToCity().equals(city2) && x.getFromCity().equals(city1))
             {
-                return x.getDuration();
+                duration = Math.min(duration,x.getDuration());
             }
         }
-        return -1;
+        return duration==Double.MAX_VALUE ? -1 : duration;
     }
 
     public int getNumberOfPeople(Date date, String airportName)
