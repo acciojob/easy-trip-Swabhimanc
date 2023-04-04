@@ -24,9 +24,9 @@ public class AirportService {
     {
         return airportRepository.getLargestAirportName();
     }
-    public void addFlight (Flight flight)
+    public String addFlight (Flight flight)
     {
-        airportRepository.addFlight(flight);
+        return airportRepository.addFlight(flight);
     }
 
     public double getShortestDurationOfPossibleBetweenTwoCities(City city1, City city2)
@@ -34,14 +34,14 @@ public class AirportService {
         return airportRepository.getShortestDurationOfPossibleBetweenTwoCities(city1,city2);
     }
 
-    public int getNumberOfPeople(Date date, String airportName)
+    public int getNumberOfPeopleOn(Date date, String airportName)
     {
-        return airportRepository.getNumberOfPeople(date,airportName);
+        return airportRepository.getNumberOfPeopleOn(date,airportName);
     }
 
-    public int flightFare(Integer flightId)
+    public int calculateFlightFare(Integer flightId)
     {
-        return airportRepository.flightFare(flightId);
+        return airportRepository.calculateFlightFare(flightId);
     }
 
     public String bookATicket(Integer flightId,Integer passengerId)
@@ -49,9 +49,9 @@ public class AirportService {
         return airportRepository.bookATicket(flightId, passengerId);
     }
 
-    public String cancelTicket(Integer flightId,Integer passengerId)
+    public String cancelATicket(Integer flightId,Integer passengerId)
     {
-        return airportRepository.cancelTicket(flightId, passengerId);
+        return airportRepository.cancelATicket(flightId, passengerId);
     }
 
     public int countOfBookingsDoneByPassengerAllCombined(Integer passengerId)
@@ -59,9 +59,9 @@ public class AirportService {
         return airportRepository.countOfBookingsDoneByPassengerAllCombined(passengerId);
     }
 
-    public String getStartingCityName(Integer flightId)
+    public String getAirportNameFromFlightId(Integer flightId)
     {
-        return airportRepository.getStartingCityName(flightId);
+        return airportRepository.getAirportNameFromFlightId(flightId);
     }
 
     public int calculateRevenueOfAFlight(Integer flightId)
