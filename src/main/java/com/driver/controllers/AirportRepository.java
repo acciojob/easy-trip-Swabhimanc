@@ -18,9 +18,11 @@ public class AirportRepository {
 
     public HashMap<Integer, Flight> flightDb = new HashMap<>();
 
-    public HashMap<Integer,List<Integer>> flightToPassengerDb = new HashMap<>();
+    public HashMap<Integer,List<Integer>> flightToPassengerDb = new HashMap<>(); //flightId, ListOfPassangers
+
 
     public HashMap<Integer,Passenger> passengerDb = new HashMap<>();
+
 
     public String addAirport(@RequestBody Airport airport){
 
@@ -71,7 +73,7 @@ public class AirportRepository {
     public int getNumberOfPeopleOn(Date date,String airportName)
     {
         Airport airport = airportDb.get(airportName);
-        if(Objects.isNull(airport)){
+        if(airport==null){
             return 0;
         }
         City city = airport.getCity();
@@ -94,7 +96,7 @@ public class AirportRepository {
 
     public String bookATicket(Integer flightId,Integer passengerId)
     {
-        if(Objects.nonNull(flightToPassengerDb.get(flightId)) &&(flightToPassengerDb.get(flightId).size()<flightDb.get(flightId).getMaxCapacity())){
+        if(flightToPassengerDb.get(flightId)!=null &&(flightToPassengerDb.get(flightId).size()<flightDb.get(flightId).getMaxCapacity())){
 
 
             List<Integer> passengers =  flightToPassengerDb.get(flightId);
@@ -107,7 +109,8 @@ public class AirportRepository {
             flightToPassengerDb.put(flightId,passengers);
             return "SUCCESS";
         }
-        else if(Objects.isNull(flightToPassengerDb.get(flightId))){
+        else if(flightToPassengerDb.get(flightId)==null)
+        {
             flightToPassengerDb.put(flightId,new ArrayList<>());
             List<Integer> passengers =  flightToPassengerDb.get(flightId);
 
@@ -139,8 +142,6 @@ public class AirportRepository {
 
     public int countOfBookingsDoneByPassengerAllCombined(Integer passengerId)
     {
-        HashMap<Integer,List<Integer>> passengerToFlightDb = new HashMap<>();
-
         int count = 0;
         for(Map.Entry<Integer,List<Integer>> entry: flightToPassengerDb.entrySet()){
 
@@ -177,9 +178,7 @@ public class AirportRepository {
     public int calculateRevenueOfAFlight(Integer flightId){
 
         int noOfPeopleBooked = flightToPassengerDb.get(flightId).size();
-        int variableFare = (noOfPeopleBooked*(noOfPeopleBooked+1))*25;
-        int fixedFare = 3000*noOfPeopleBooked;
-        int totalFare = 3000+noOfPeopleBooked*50;
+        int totalFare = (25 * noOfPeopleBooked * noOfPeopleBooked) + (2975 * noOfPeopleBooked);
 
         return totalFare;
     }
